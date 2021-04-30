@@ -1,0 +1,23 @@
+# This is a basic workflow to help you get started with Actions
+
+name: assigned issues go to the in progress column
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  issues:
+    types: [assigned]
+  pull_request:
+    types: [assigned]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.6.0
+        with:
+          project: 3den
+          column: In progress
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
