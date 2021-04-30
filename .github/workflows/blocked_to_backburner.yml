@@ -10,5 +10,5 @@ jobs:
         action-token: "${{ secrets.GITHUB_TOKEN }}"
         project-url: "https://github.com/notanimposter/3den/projects/3"
         column-name: "Backburner"
-        label-name: "Blocked"
+        label-name: "blocked"
         columns-to-ignore: "Review,Done"
