@@ -3,6 +3,8 @@
 -- Matrix.lua
 -- haphazardly ported from vmini
 
+local Matrix = class ()
+
 local index_fix_col = {
 	__index = function (row, j)
 		local i = rawget(row,"i")
@@ -27,7 +29,6 @@ local index_fix_row = {
 	end
 }
 
-Matrix = class ()
 function Matrix:init (tab)
 	setmetatable (self, index_fix_row)
 	self.data = tab or {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}
@@ -281,3 +282,5 @@ function Matrix:prettyPrint ()
 	end
 	io.write ("└"..space.."┘\n")
 end
+
+return Matrix

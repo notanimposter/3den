@@ -19,7 +19,7 @@ local function splitString(self, sep)
    return fields
 end
 
-OBJLoader = {}
+local OBJLoader = {}
 
 OBJLoader.VERTEX_FORMAT = {
 	{"VertexPosition", "float", 3},
@@ -97,3 +97,5 @@ function OBJLoader.load (filename)
 	end
 	return vertexClungus
 end
+
+return OBJLoader

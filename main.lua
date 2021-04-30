@@ -1,5 +1,16 @@
 class = require 'class'
-require '3den'
+
+--[[
+local Material = require '3den.Material'
+local LitMaterial = require '3den.LitMaterial'
+local Shader = require '3den.Shader'
+local MeshObject = require '3den.MeshObject'
+local Camera = require '3den.Camera'
+local Scene = require '3den.Scene'
+local OBJLoader = require '3den.OBJLoader'
+--]]
+
+local Threeden = require '3den'
 
 local tenball, light_ball, camera, scene, image_material, unlit_material, mesh
 local fps
@@ -12,25 +23,25 @@ function love.load ()
 	})
 	love.graphics.setDepthMode("lequal", true)
 	love.graphics.setMeshCullMode('back')
-	Shader.init ()
+	Threeden.Shader.init ()
 	
-	image_material = LitMaterial (
+	image_material = Threeden.LitMaterial (
 		love.graphics.newImage ("textures/tenball.tga"),
 		nil,
 		nil,
 		{-3, 2, -1},
 		sky_color
 	)
-	unlit_material = GenericMaterial (Shader.UNLIT,
+	unlit_material = Threeden.Material (Threeden.Shader.UNLIT,
 		{
-			image_texture = mapFromRGBA(1,1,1,1)
+			image_texture = Threeden.Material.mapFromRGBA(1,1,1,1)
 		}
 	)
-	mesh = love.graphics.newMesh (OBJLoader.VERTEX_FORMAT, OBJLoader.load ("models/sphere_uv.obj"), "triangles")
-	tenball = MeshObject ({0,0,-4}, {0, 0, 0}, {1,1,1}, mesh, image_material)
-	light_ball = MeshObject ({-3,2,-1}, {0, 0, 0}, {0.2,0.2,0.2}, mesh, unlit_material)
-	camera = Camera ({0,0,2}, {0, 0, 0})
-	scene = Scene ()
+	mesh = love.graphics.newMesh (Threeden.OBJLoader.VERTEX_FORMAT, Threeden.OBJLoader.load ("models/sphere_uv.obj"), "triangles")
+	tenball = Threeden.MeshObject ({0,0,-4}, {0, 0, 0}, {1,1,1}, mesh, image_material)
+	light_ball = Threeden.MeshObject ({-3,2,-1}, {0, 0, 0}, {0.2,0.2,0.2}, mesh, unlit_material)
+	camera = Threeden.Camera ({0,0,2}, {0, 0, 0})
+	scene = Threeden.Scene ()
 	scene:addChild (tenball)
 	scene:addChild (light_ball)
 	scene:addChild (camera)

@@ -2,7 +2,11 @@
 -- 3den
 -- Camera.lua
 
-Camera = class (Object)
+local Object = require '3den.Object'
+local Shader = require '3den.Shader'
+local Matrix = require '3den.Matrix'
+
+local Camera = class (Object)
 function Camera:init (position, euler, fov, near, far, aspect)
 	self.viewMatrix = Matrix ()
 	self.projectionMatrix = Matrix ()
@@ -30,3 +34,5 @@ function Camera:drawObject (object)
 	end
 	if object.draw then object:draw () end
 end
+
+return Camera
