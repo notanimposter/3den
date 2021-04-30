@@ -1,13 +1,17 @@
-name: "assigned issues are in progress"
+name: Assigned Issues Are In Progress
+
 on:
   issues:
     types: [assigned]
+
 jobs:
-  Add_New_Issue_To_Project:
+  move-to-in-progress:
     runs-on: ubuntu-latest
+    name: Move to In Progress Column
     steps:
-    - uses: konradpabjan/actions-add-new-issue-to-column@v1.1
-      with:
-        action-token: "${{ secrets.GITHUB_TOKEN }}"
-        project-url: "https://github.com/notanimposter/3den/projects/3"
-        column-name: "In progress"
+      - name: Move to In Progress
+        uses: kin/gh-action-move-issue-to-column@1.0
+        with:
+          access-token: "#{{ secrets.GITHUB_TOKEN }}"
+          project-name: "3den"
+          target-column: "In progress"
