@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
       with:
-        action-token: "${{ secrets.MY_TOKEN }}"
+        action-token: "${{ secrets.GITHUB_TOKEN }}"
         project-url: "https://github.com/notanimposter/3den/projects/3"
         column-name: "Backburner"
         label-name: "Blocked"
