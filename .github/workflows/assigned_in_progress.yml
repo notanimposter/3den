@@ -18,6 +18,6 @@ jobs:
     steps:
       - uses: alex-page/github-project-automation-plus@v0.6.0
         with:
-          project: 3den
+          project: 3den-board
           column: In progress
-          repo-token: ${{ secrets.GH_SECRET }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
