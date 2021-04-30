@@ -20,4 +20,4 @@ jobs:
         with:
           project: 3den
           column: In progress
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GH_SECRET }}
