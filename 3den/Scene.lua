@@ -2,7 +2,9 @@
 -- 3den
 -- Scene.lua
 
-Scene = class (Object)
+local Object = require '3den.Object'
+
+local Scene = class (Object)
 function Scene:init ()
 	Object.init (self)
 	self.children = {}
@@ -25,3 +27,5 @@ function Scene:draw ()
 		if child.draw then child:draw () end
 	end
 end
+
+return Scene

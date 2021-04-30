@@ -2,7 +2,7 @@
 -- 3den
 -- Shader.lua
 
-Shader = {}
+local Shader = {}
 function Shader.init ()
 	for i,filename in ipairs (love.filesystem.getDirectoryItems ("3den/shaders")) do
 		local shadername = filename:match ("(.+).glsl$")
@@ -15,3 +15,5 @@ function Shader.init ()
 		end
 	end
 end
+
+return Shader
