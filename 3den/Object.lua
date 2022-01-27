@@ -12,8 +12,12 @@ function Object:init (position, euler, scale)
 	self.matrix = Matrix ()
 	self:updateMatrix ()
 end
-function Object:updateMatrix ()
-	self.matrix:setIdentity ()
+function Object:updateMatrix (parentsMatrix)
+	if parentsMatrix then
+		self.matrix:copyFrom (parentsMatrix)
+	else
+		self.matrix:setIdentity ()
+	end
 	self.matrix:rotate (unpack (self.euler))
 	self.matrix:scale (unpack (self.scale))
 	self.matrix:translate (unpack (self.position))
