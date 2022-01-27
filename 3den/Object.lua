@@ -12,9 +12,9 @@ function Object:init (position, euler, scale)
 	self.matrix = Matrix ()
 	self:updateMatrix ()
 end
-function Object:updateMatrix (parentsMatrix)
-	if parentsMatrix then
-		self.matrix:copyFrom (parentsMatrix)
+function Object:updateMatrix ()
+	if self.parent then
+		self.matrix:copyFrom (self.parent.matrix)
 	else
 		self.matrix:setIdentity ()
 	end

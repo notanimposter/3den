@@ -10,8 +10,12 @@ function Empty:init ()
 	Object.init (self)
 end
 function Empty:addChild (child)
+	if child.parent then
+		child.parent:removeChild (child)
+	end
 	table.insert (self.children, child)
-	child:updateMatrix (self.matrix)
+	child.parent = self
+	child:updateMatrix ()
 end
 function Empty:removeChild (child)
 	for i,against in ipairs (self.children) do
@@ -19,12 +23,13 @@ function Empty:removeChild (child)
 			table.remove (self.children, i)
 		end
 	end
+	child.parent = nil
 	child:updateMatrix ()
 end
-function Empty:updateMatrix (parentsMatrix)
-	Object.updateMatrix(self, parentsMatrix)
+function Empty:updateMatrix ()
+	Object.updateMatrix(self)
 	for i,child in ipairs (self.children) do
-		child:updateMatrix (self.matrix)
+		child:updateMatrix ()
 	end
 end
 function Empty:update (dt)
