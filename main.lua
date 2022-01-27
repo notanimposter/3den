@@ -21,10 +21,12 @@ function love.load ()
 		msaa = 16,
 		vsync = 0
 	})
+	love.mouse.setGrabbed (true)
+	love.mouse.setRelativeMode (true)
 	love.graphics.setDepthMode("lequal", true)
 	love.graphics.setMeshCullMode('back')
 	Threeden.Shader.init ()
-	
+
 	image_material = Threeden.LitMaterial (
 		love.graphics.newImage ("textures/tenball.tga"),
 		nil,
@@ -41,36 +43,50 @@ function love.load ()
 	tenball = Threeden.MeshObject ({0,0,-4}, {0, 0, 0}, {1,1,1}, mesh, image_material)
 	light_ball = Threeden.MeshObject ({-3,2,-1}, {0, 0, 0}, {0.2,0.2,0.2}, mesh, unlit_material)
 	camera = Threeden.Camera ({0,0,2}, {0, 0, 0})
-	scene = Threeden.Scene ()
+	scene = Threeden.Empty ()
 	scene:addChild (tenball)
 	scene:addChild (light_ball)
 	scene:addChild (camera)
+end
+
+function love.mousemoved (x, y, dx, dy, istouch)
+	camera.euler[2] = camera.euler[2] - 0.001 * dx
+	camera.euler[1] = camera.euler[1] - 0.001 * dy
 end
 
 function love.update (dt)
 	fps = math.floor(1 / dt)
 	tenball.euler[2] = tenball.euler[2] + math.pi * dt
 	tenball:updateMatrix ()
-	
+
+	local x,y,z = 0,0,0
+
 	if love.keyboard.isDown('w') then
-		light_ball.position[3] = light_ball.position[3] - 2 * dt
+		x = x+ -2 * math.sin (camera.euler[2]) * dt
+		z = z+ -2 * math.cos (camera.euler[2]) * dt
 	end
 	if love.keyboard.isDown('s') then
-		light_ball.position[3] = light_ball.position[3] + 2 * dt
+		x = x+ 2 * math.sin (camera.euler[2]) * dt
+		z = z+ 2 * math.cos (camera.euler[2]) * dt
 	end
 	if love.keyboard.isDown('a') then
-		light_ball.position[1] = light_ball.position[1] - 2 * dt
+		z = z+ 2 * math.sin (camera.euler[2]) * dt
+		x = x+ -2 * math.cos (camera.euler[2]) * dt
 	end
 	if love.keyboard.isDown('d') then
-		light_ball.position[1] = light_ball.position[1] + 2 * dt
+		z = z+ -2 * math.sin (camera.euler[2]) * dt
+		x = x+ 2 * math.cos (camera.euler[2]) * dt
 	end
 	if love.keyboard.isDown('lshift') then
-		light_ball.position[2] = light_ball.position[2] - 2 * dt
+		y = y+ -2 * dt
 	end
 	if love.keyboard.isDown('space') then
-		light_ball.position[2] = light_ball.position[2] + 2 * dt
+		y = y+ 2 * dt
 	end
-	light_ball:updateMatrix ()
+	camera.position[1] = camera.position[1] + x
+	camera.position[2] = camera.position[2] + y
+	camera.position[3] = camera.position[3] + z
+	camera:updateMatrix ()
 	tenball.material.uniforms.light_position = light_ball.position
 end
 
