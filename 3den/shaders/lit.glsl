@@ -22,7 +22,7 @@ varying vec3 cameraPos_relative;
 		mat4 inverseModelMatrix = inverse (modelMatrix);
 		lightPos_relative = (inverseModelMatrix * vec4 (light_position,1)).xyz;
 		cameraPos_relative = - (viewMatrix * modelMatrix * vert).xyz;
-		
+
 		frag_norm = mat3(transpose (inverseModelMatrix)) * VertexNormal;
 		return projectionMatrix * viewMatrix * modelMatrix * vert;
 	}
@@ -33,24 +33,22 @@ varying vec3 cameraPos_relative;
 		if (albedo.a < 0.001) discard;
 		vec4 normal = Texel (normal_map, texture_coords);
 		vec4 roughness = Texel (roughness_map, texture_coords);
-		
+
 		if (normal.a < 0.001) normal = vec4 (frag_norm, 1); // use vertex normals if the map has alpha zero
-		
+
 		vec3 lightDir = normalize (light_position);
 		vec3 normalDir = normalize (normal.xyz);
 		vec3 camDir = normalize (cameraPos_relative);
-		vec3 reflectDir = reflect (-lightDir, normalDir);
-		
+		vec3 halfwayDir = normalize (lightDir + camDir);
+
 		float lambert = max (0.0 , dot (lightDir, normalDir));
 		vec3 diffuse = lambert * light_color;
-		
-		vec3 specularStrength = 1 - roughness.rgb;
-		float spec = pow (max (dot (camDir, reflectDir), 0.0), 32);
-		vec3 specular = specularStrength * spec * light_color;
-		
-		
+
+		float spec = pow (max (dot (normalDir, halfwayDir), 0.0), 32.0);
+		vec3 specular = (1 - roughness.rgb) * spec * light_color;
+
 		vec3 frag_color = (diffuse + ambient_light) * albedo.rgb + specular; // i think this is right?
-		
+
 		return vec4 (frag_color, albedo.a);
 	}
 #endif
